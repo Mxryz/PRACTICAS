@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -57,37 +58,55 @@ fun Greeting(){
 
     val context=LocalContext.current
     var texto by remember { mutableStateOf("") }
+    var texto2 by remember { mutableStateOf("") }
+    var ValorA by remember {mutableStateOf("")}
+    var ValorB by remember { mutableStateOf("") }
+    var resultado by remember { mutableStateOf("") }
+
 
     Column (modifier = Modifier.fillMaxWidth(1f),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
-
-        Row(modifier=Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
+        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
             OutlinedTextField(
-                value=texto,
-                label={Text("Nombre")},
-                onValueChange ={texto=it}
+                value=ValorA,
+                label={Text("Primer Valor")},
+                onValueChange ={ValorA=it}
+            )
+        }
+        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
+            OutlinedTextField(
+                value=ValorB,
+                label={Text("Segundo Valor")},
+                onValueChange ={ValorB=it}
             )
         }
         Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)) {
-            Button(
-                onClick = { /*TODO*/
-                    Toast.makeText(
-                        context,texto,
-                        Toast.LENGTH_LONG
-                    ).show()
-                },
-                colors = ButtonDefaults.buttonColors(Color.Magenta),
-                elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 15.dp,
-                    disabledElevation = 0.dp
-                )
+            OutlinedButton(onClick = {/*TODO*/
+                val a=ValorA.toInt()
+                val b=ValorB.toInt()
+                val c=a+b
+                resultado=c.toString()
+            })
+            {
+                Text("Enviar", color = Color.Black)
+            }
+            OutlinedButton(onClick = {/*TODO*/
 
-            ) {
-                Text("Enviar",color = Color.Black)
+            })
+            {
+                Text("Borrar", color = Color.Black)
             }
         }
-    }
+
+        Row(){
+            OutlinedTextField(
+                value=resultado,
+                label={Text("Resultado")},
+                onValueChange ={resultado=it}
+            )
+        }
+        }
 
 }
+
