@@ -54,67 +54,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun Greeting(){
+fun Greeting() {
 
-    val context=LocalContext.current
-    //var texto by remember { mutableStateOf("") }
-    //var texto2 by remember { mutableStateOf("") }
-    var ValorA by remember {mutableStateOf("")}
-    var ValorB by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
-
-
-    Column (modifier = Modifier.fillMaxWidth(1f),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-
-        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
-            OutlinedTextField(
-                value=ValorA,
-                label={Text("Primer Valor")},
-                onValueChange ={ValorA=it}
-            )
-        }
-
-        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
-            OutlinedTextField(
-                value=ValorB,
-                label={Text("Segundo Valor")},
-                onValueChange ={ValorB=it}
-            )
-        }
-
-        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedButton(onClick = {/*TODO*/
-                val a=ValorA.toInt()
-                val b=ValorB.toInt()
-                val c=a+b
-                resultado=c.toString()
-            })
-            {
-                Text("Enviar", color = Color.Black)
-            }
-            OutlinedButton(onClick = {/*TODO*/
-                ValorA = ""
-                ValorB = ""
-                resultado = ""
-            })
-            {
-                Text("Borrar", color = Color.Black)
-            }
-        }
-
-        Row(modifier = Modifier.padding(0.dp,0.dp,0.dp,20.dp)){
-            OutlinedTextField(
-                value=resultado,
-                label={Text("Resultado")},
-                onValueChange ={resultado=it}
-            )
-        }
-        }
-
+    val context = LocalContext.current
 }
-
