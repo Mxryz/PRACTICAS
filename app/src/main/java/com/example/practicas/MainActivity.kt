@@ -35,45 +35,42 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Calculadora() {
     // Estado para mostrar la operación y resultado
-    var input by remember { mutableStateOf("") }
+    var entrada by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
-        // Pantalla superior
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp),
-            horizontalAlignment = Alignment.End
-        ) {
-            Text(
-                text = input,
-                fontSize = 32.sp,
-                color = Color.Black,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
+        // Pantalla superior de la calculadora
+        Text(
+            text = entrada,
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            fontSize = 32.sp,
+            color = Color.Black
+        )
 
         val buttonModifier = Modifier.size(width = 90.dp, height = 60.dp)
         val espacio = 10.dp
 
-        fun addInput(value: String) {
-            input += value
+        fun addToInput(value: String) {
+            entrada += value
         }
 
-        // Función para evaluar la operación
+        // evaluar la operación
         fun calculateResult() {
             try {
-                // Evaluación usando Kotlin
-                val result = evaluateExpression(input)
-                input = result
+                // Evaluaciónusando Kotlin
+                val result = evaluateExpression(entrada)
+                entrada = result
             } catch (e: Exception) {
-                input = "Error"
+                entrada = "Error"
             }
         }
 
-        // row 1
+        // Fila 1
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             Button(
                 onClick = { },
@@ -82,22 +79,19 @@ fun Calculadora() {
             ) { Text("") }
 
             Button(
-                onClick = { input = "" },
+                onClick = { entrada = "" },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("AC") }
 
             Button(
-                onClick = { addInput("x") },
+                onClick = { addToInput("x") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) {
-                if (input.isNotEmpty()) input = input.dropLast(1)
-                Text("x")
-            }
+            ) { Text("x") }
 
             Button(
-                onClick = { addInput("/") },
+                onClick = { addToInput("/") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("/") }
@@ -105,18 +99,18 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // row2
+        // Fila 2
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("7", "8", "9").forEach { number ->
                 Button(
-                    onClick = { addInput(number) },
+                    onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
                 ) { Text(number) }
             }
 
             Button(
-                onClick = { addInput("*") },
+                onClick = { addToInput("*") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("*") }
@@ -124,18 +118,18 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // row 3
+        // Fila 3
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("4", "5", "6").forEach { number ->
                 Button(
-                    onClick = { addInput(number) },
+                    onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
                 ) { Text(number) }
             }
 
             Button(
-                onClick = { addInput("-") },
+                onClick = { addToInput("-") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("-") }
@@ -143,18 +137,18 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // row 4
+        // Fila 4
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("1", "2", "3").forEach { number ->
                 Button(
-                    onClick = { addInput(number) },
+                    onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
                 ) { Text(number) }
             }
 
             Button(
-                onClick = { addInput("+") },
+                onClick = { addToInput("+") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("+") }
@@ -162,22 +156,22 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // row 5
+        // Fila 5
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             Button(
-                onClick = { addInput("%") },
+                onClick = { addToInput("%") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text("%") }
 
             Button(
-                onClick = { addInput("0") },
+                onClick = { addToInput("0") },
                 colors = ButtonDefaults.buttonColors(Color.Gray),
                 modifier = buttonModifier
             ) { Text("0") }
 
             Button(
-                onClick = { addInput(".") },
+                onClick = { addToInput(".") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
             ) { Text(".") }
@@ -186,43 +180,38 @@ fun Calculadora() {
                 onClick = { calculateResult() },
                 colors = ButtonDefaults.buttonColors(Color.Blue),
                 modifier = buttonModifier
-            ) { Text("=" )}
+            ) { Text("=") }
         }
     }
 }
 
 fun evaluateExpression(expression: String): String {
-    return try {
-        val sanitized = expression.replace("x", "*")
-        val result = when {
-            sanitized.contains("+") -> {
-                val parts = sanitized.split("+")
-                parts[0].toDouble() + parts[1].toDouble()
-            }
-            sanitized.contains("-") -> {
-                val parts = sanitized.split("-")
-                parts[0].toDouble() - parts[1].toDouble()
-            }
-            sanitized.contains("*") -> {
-                val parts = sanitized.split("*")
-                parts[0].toDouble() * parts[1].toDouble()
-            }
-            sanitized.contains("/") -> {
-                val parts = sanitized.split("/")
-                parts[0].toDouble() / parts[1].toDouble()
-            }
-            sanitized.contains("%") -> {
-                val parts = sanitized.split("%")
-                parts[0].toDouble() % parts[1].toDouble()
-            }
-            else -> sanitized.toDouble()
+    val sanitized = expression.replace("x", "*")
+    val result = when {
+        sanitized.contains("+") -> {
+            val parts = sanitized.split("+")
+            parts[0].toDouble() + parts[1].toDouble()
         }
-        result.toString()
-    } catch (e: Exception) {
-        "Error"
+        sanitized.contains("-") -> {
+            val parts = sanitized.split("-")
+            parts[0].toDouble() - parts[1].toDouble()
+        }
+        sanitized.contains("*") -> {
+            val parts = sanitized.split("*")
+            parts[0].toDouble() * parts[1].toDouble()
+        }
+        sanitized.contains("/") -> {
+            val parts = sanitized.split("/")
+            parts[0].toDouble() / parts[1].toDouble()
+        }
+        sanitized.contains("%") -> {
+            val parts = sanitized.split("%")
+            parts[0].toDouble() % parts[1].toDouble()
+        }
+        else -> sanitized.toDouble()
     }
+    return result.toString()
 }
-
 
 @Preview(showBackground = true)
 @Composable
