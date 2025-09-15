@@ -1,15 +1,22 @@
 package com.example.practicas
 import android.R
+import android.graphics.Color.green
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,24 +39,37 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Preview(showBackground = true)
 @Composable
 fun Calculadora() {
-    // Estado para mostrar la operación y resultado
+
     var entrada by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Pantalla superior de la calculadora
-        Text(
-            text = entrada,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            fontSize = 32.sp,
-            color = Color.Black
+        //Pantalla
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(bottom = 0.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.End,
+
+        ) {
+            Text(
+                text = entrada,
+                fontSize = 35.sp,
+                color = Color.Black,
+                modifier = Modifier.padding(8.dp)
+
+            )
+        }
+
+        Divider(
+            color = Color.Black,
+            thickness = 5.dp,
+            modifier = Modifier.padding(vertical = 15.dp)
         )
 
         val buttonModifier = Modifier.size(width = 90.dp, height = 60.dp)
@@ -59,10 +79,10 @@ fun Calculadora() {
             entrada += value
         }
 
-        // evaluar la operación
+        // Evaluar
         fun calculateResult() {
             try {
-                // Evaluaciónusando Kotlin
+                // Evaluación usando Kotlin
                 val result = evaluateExpression(entrada)
                 entrada = result
             } catch (e: Exception) {
@@ -70,7 +90,7 @@ fun Calculadora() {
             }
         }
 
-        // Fila 1
+        // fila 1
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             Button(
                 onClick = { },
@@ -85,10 +105,14 @@ fun Calculadora() {
             ) { Text("AC") }
 
             Button(
-                onClick = { addToInput("x") },
+                onClick = {
+                    if (entrada.isNotEmpty()) {
+                        entrada = entrada.dropLast(1) // borra solo el ultimo digito
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("x") }
+            ) { Text("X") }
 
             Button(
                 onClick = { addToInput("/") },
@@ -99,7 +123,7 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // Fila 2
+        // fila 2
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("7", "8", "9").forEach { number ->
                 Button(
@@ -118,7 +142,7 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // Fila 3
+        // fila 3
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("4", "5", "6").forEach { number ->
                 Button(
@@ -137,7 +161,7 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // Fila 4
+        // fila 4
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             listOf("1", "2", "3").forEach { number ->
                 Button(
@@ -156,7 +180,7 @@ fun Calculadora() {
 
         Spacer(modifier = Modifier.height(espacio))
 
-        // Fila 5
+        // fila 5
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             Button(
                 onClick = { addToInput("%") },
@@ -186,37 +210,86 @@ fun Calculadora() {
 }
 
 fun evaluateExpression(expression: String): String {
-    val sanitized = expression.replace("x", "*")
-    val result = when {
-        sanitized.contains("+") -> {
-            val parts = sanitized.split("+")
-            parts[0].toDouble() + parts[1].toDouble()
+    try {
+        var exp = expression.replace("x", "*")
+
+        val regex = Regex("(?<=[-+*/%])|(?=[-+*/%])")
+        val tokens = exp.split(regex).filter { it.isNotBlank() }.toMutableList()
+        if (tokens.isEmpty()) return ""
+
+        fun formatNum(num: Double): String {
+            return String.format("%.6f", num).trimEnd('0').trimEnd('.')
         }
-        sanitized.contains("-") -> {
-            val parts = sanitized.split("-")
-            parts[0].toDouble() - parts[1].toDouble()
+
+        // * y /
+        var i = 0
+        while (i < tokens.size) {
+            when (tokens[i]) {
+                "*" -> {
+                    val left = tokens[i - 1].toDouble()
+                    val right = tokens[i + 1].toDouble()
+                    val res = left * right
+                    tokens[i - 1] = formatNum(res)
+                    tokens.removeAt(i)
+                    tokens.removeAt(i)
+                    i--
+                }
+                "/" -> {
+                    val left = tokens[i - 1].toDouble()
+                    val right = tokens[i + 1].toDouble()
+                    val res = left / right
+                    tokens[i - 1] = formatNum(res)
+                    tokens.removeAt(i)
+                    tokens.removeAt(i)
+                    i--
+                }
+                else -> i++
+            }
         }
-        sanitized.contains("*") -> {
-            val parts = sanitized.split("*")
-            parts[0].toDouble() * parts[1].toDouble()
+
+        // %
+        i = 0
+        while (i < tokens.size) {
+            if (tokens[i] == "%") {
+                val left = tokens[i - 1].toDouble()
+                val res = left / 100.0
+                tokens[i - 1] = formatNum(res)
+                tokens.removeAt(i)
+                i--
+            } else {
+                i++
+            }
         }
-        sanitized.contains("/") -> {
-            val parts = sanitized.split("/")
-            parts[0].toDouble() / parts[1].toDouble()
+
+        // + y -
+        i = 0
+        while (i < tokens.size) {
+            when (tokens[i]) {
+                "+" -> {
+                    val left = tokens[i - 1].toDouble()
+                    val right = tokens[i + 1].toDouble()
+                    val res = left + right
+                    tokens[i - 1] = formatNum(res)
+                    tokens.removeAt(i)
+                    tokens.removeAt(i)
+                    i--
+                }
+                "-" -> {
+                    val left = tokens[i - 1].toDouble()
+                    val right = tokens[i + 1].toDouble()
+                    val res = left - right
+                    tokens[i - 1] = formatNum(res)
+                    tokens.removeAt(i)
+                    tokens.removeAt(i)
+                    i--
+                }
+                else -> i++
+            }
         }
-        sanitized.contains("%") -> {
-            val parts = sanitized.split("%")
-            parts[0].toDouble() % parts[1].toDouble()
-        }
-        else -> sanitized.toDouble()
+
+        return tokens[0]
+    } catch (e: Exception) {
+        return "Error"
     }
-    return result.toString()
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCalculadora() {
-    PRACTICASTheme {
-        Calculadora()
-    }
-}
