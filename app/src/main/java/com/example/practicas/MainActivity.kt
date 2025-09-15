@@ -43,6 +43,7 @@ data class TarifaISR(
     val porcentaje: Double
 )
 
+
 @Preview(showBackground = true)
 @Composable
 fun MainScreen() {
