@@ -46,28 +46,29 @@ fun Calculadora() {
     var entrada by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier.fillMaxSize().background(Color.Black).padding(bottom = 35.dp),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //Pantalla
         Column(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 0.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(top = 16.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.End,
-
+            horizontalAlignment = Alignment.End
         ) {
             Text(
                 text = entrada,
-                fontSize = 35.sp,
-                color = Color.Black,
+                fontSize = 45.sp,
+                color = Color.White,
                 modifier = Modifier.padding(8.dp)
-
             )
         }
 
         Divider(
-            color = Color.Black,
+            color = Color.White,
             thickness = 5.dp,
             modifier = Modifier.padding(vertical = 15.dp)
         )
@@ -82,7 +83,7 @@ fun Calculadora() {
         // Evaluar
         fun calculateResult() {
             try {
-                // Evaluación usando Kotlin
+                // Evaluación
                 val result = evaluateExpression(entrada)
                 entrada = result
             } catch (e: Exception) {
@@ -94,7 +95,7 @@ fun Calculadora() {
         Row(horizontalArrangement = Arrangement.spacedBy(espacio)) {
             Button(
                 onClick = { },
-                colors = ButtonDefaults.buttonColors(Color.White),
+                colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = buttonModifier
             ) { Text("") }
 
@@ -112,7 +113,7 @@ fun Calculadora() {
                 },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("X") }
+            ) { Text("«") }
 
             Button(
                 onClick = { addToInput("/") },
