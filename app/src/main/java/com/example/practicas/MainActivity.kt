@@ -52,10 +52,7 @@ fun Calculadora() {
     ) {
         //Pantalla
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.Black)
-                .padding(top = 16.dp),
+            modifier = Modifier.fillMaxWidth().background(Color.Black).padding(top = 16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.End
         ) {
@@ -103,7 +100,8 @@ fun Calculadora() {
                 onClick = { entrada = "" },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("AC") }
+            ) { Text("AC", fontSize = 20.sp)
+            }
 
             Button(
                 onClick = {
@@ -113,13 +111,13 @@ fun Calculadora() {
                 },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("«") }
+            ) { Text("«",fontSize = 20.sp) }
 
             Button(
                 onClick = { addToInput("/") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("/") }
+            ) { Text("/",fontSize = 20.sp) }
         }
 
         Spacer(modifier = Modifier.height(espacio))
@@ -131,14 +129,14 @@ fun Calculadora() {
                     onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
-                ) { Text(number) }
+                ) { Text(number,fontSize = 20.sp) }
             }
 
             Button(
                 onClick = { addToInput("*") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("*") }
+            ) { Text("*",fontSize = 20.sp) }
         }
 
         Spacer(modifier = Modifier.height(espacio))
@@ -150,14 +148,14 @@ fun Calculadora() {
                     onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
-                ) { Text(number) }
+                ) { Text(number,fontSize = 20.sp) }
             }
 
             Button(
                 onClick = { addToInput("-") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("-") }
+            ) { Text("-",fontSize = 20.sp) }
         }
 
         Spacer(modifier = Modifier.height(espacio))
@@ -169,14 +167,14 @@ fun Calculadora() {
                     onClick = { addToInput(number) },
                     colors = ButtonDefaults.buttonColors(Color.Gray),
                     modifier = buttonModifier
-                ) { Text(number) }
+                ) { Text(number,fontSize = 20.sp) }
             }
 
             Button(
                 onClick = { addToInput("+") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("+") }
+            ) { Text("+",fontSize = 20.sp) }
         }
 
         Spacer(modifier = Modifier.height(espacio))
@@ -187,25 +185,25 @@ fun Calculadora() {
                 onClick = { addToInput("%") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text("%") }
+            ) { Text("%",fontSize = 20.sp) }
 
             Button(
                 onClick = { addToInput("0") },
                 colors = ButtonDefaults.buttonColors(Color.Gray),
                 modifier = buttonModifier
-            ) { Text("0") }
+            ) { Text("0",fontSize = 20.sp) }
 
             Button(
                 onClick = { addToInput(".") },
                 colors = ButtonDefaults.buttonColors(Color.DarkGray),
                 modifier = buttonModifier
-            ) { Text(".") }
+            ) { Text(".",fontSize = 20.sp) }
 
             Button(
                 onClick = { calculateResult() },
                 colors = ButtonDefaults.buttonColors(Color.Blue),
                 modifier = buttonModifier
-            ) { Text("=") }
+            ) { Text("=",fontSize = 20.sp) }
         }
     }
 }
