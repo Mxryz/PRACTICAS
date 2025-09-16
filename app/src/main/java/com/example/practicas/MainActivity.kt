@@ -1,5 +1,5 @@
 package com.example.practicas
-import android.R
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -75,13 +75,9 @@ fun MainScreen() {
     ) {
         Row() {
             //Imagen del sat
-            Image(
-                painter = painterResource( R.drawable.sat),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(120.dp)
-                    .padding(8.dp)
-            )
+           Image(painterResource(R.drawable.sat),
+               contentDescription = null,
+               )
         }
 
         Row(
