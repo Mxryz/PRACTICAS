@@ -47,7 +47,7 @@ fun SplashScreen(navController: NavHostController) {
             Image(
                 painter = painterResource(id = R.drawable.nfl),
                 contentDescription = "NFL Logo",
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier.size(1500.dp)
             )
 
 
