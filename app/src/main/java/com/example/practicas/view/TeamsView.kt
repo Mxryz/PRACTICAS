@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import kotlin.collections.listOf
 import com.example.practicas.R
@@ -26,7 +27,6 @@ import com.example.practicas.R
 @Composable
 fun TeamsView(navController: NavHostController, divisionId: String) {
 
-    // Lista de equipos por división con nombres exactos para TeamDetailsView
     val teams = when (divisionId) {
         "AFC East" -> listOf(
             "Buffalo Bills" to R.drawable.buffalo_bills,
@@ -82,16 +82,25 @@ fun TeamsView(navController: NavHostController, divisionId: String) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Equipos de $divisionId") },
+                title = {
+                    Text(
+                        text = "EQUIPOS DE $divisionId",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Regresar"
+                            contentDescription = "Regresar",
+                            tint = Color.White
                         )
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Red)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.DarkGray
+                )
             )
         }
     ) { paddingValues ->

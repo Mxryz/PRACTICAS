@@ -32,7 +32,7 @@ fun HomeView(navController: NavController) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { TitleBar("Conferencias NFL") },
+                title = { TitleBar("CONFERENCIAS NFL") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Red
                 )
@@ -71,21 +71,21 @@ fun ContentHomeView(navController: NavController) {
         Spacer(modifier = Modifier.height(20.dp))
 
         MainButton(
-            name = "Conferencia A",
+            name = "CONFERENCIA AMERICAN",
             backColor = Color.Red,
             color = Color.White
         ) {
-            navController.navigate("Divisions/AFC") // Aquí se corrige "A" -> "AFC"
+            navController.navigate("Divisions/AFC")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         MainButton(
-            name = "Conferencia N",
-            backColor = Color.Red,
+            name = "CONFERENCIA NATIONAL",
+            backColor = Color.Blue,
             color = Color.White
         ) {
-            navController.navigate("Divisions/NFC") // Aquí se corrige "N" -> "NFC"
+            navController.navigate("Divisions/NFC")
         }
 
     }

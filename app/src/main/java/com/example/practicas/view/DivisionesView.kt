@@ -48,7 +48,7 @@ fun DivisionesView(navController: NavHostController, conferencia: String) {
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Red
+                    containerColor = Color.DarkGray
                 )
             )
         }
@@ -144,12 +144,12 @@ fun DivisionesView(navController: NavHostController, conferencia: String) {
                 }
             }
 
-            Space(espacio = 24)
+            Space(espacio = 55)
 
             // Botón regresar a conferencias
             MainButton(
                 name = "REGRESAR A CONFERENCIAS",
-                backColor = Color.Red,
+                backColor = Color.DarkGray,
                 color = Color.White,
                 modifier = Modifier.width(250.dp)
             ) {
